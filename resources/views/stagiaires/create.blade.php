@@ -7,6 +7,11 @@
 </head>
 <body>
     <h1>Ajouter un stagiaire</h1>
+        @if ($errors->any())
+        @foreach ($errors->all() as $error)
+            <p>{{ $error }}</p>
+        @endforeach
+    @endif
 
     <form action="/stagiaires" method="POST">
         @csrf

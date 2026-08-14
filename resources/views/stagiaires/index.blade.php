@@ -21,8 +21,14 @@
                 <td>{{ $stagiaire->etablissement }}</td>
                 <td>{{ $stagiaire->filiere }}</td>
                 <td>{{ $stagiaire->niveau }}</td>           
-                <td><a href="http://127.0.0.1:8000/stagiaires/1/edit">Modifier</a></td>       
-                
+                <td><a href="http://127.0.0.1:8000/stagiaires/1/edit">Modifier</a></td>             
+                <td>
+                    <form action="/stagiaires/{{ $stagiaire->id }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit">Supprimer</button>
+                    </form>
+                </td>        
             </tr>
         </table>
     @endforeach

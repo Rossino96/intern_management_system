@@ -14,6 +14,7 @@ Route::get('/stagiaires/{stagiaire}/edit', [StagiaireController::class, 'edit'])
 
 Route::put('/stagiaires/{stagiaire}', [StagiaireController::class, 'update']);
 
+Route::delete('/stagiaires/{stagiaire}', [StagiaireController::class, 'destroy']);
 
 Route::get('/', function () {
     return view('welcome');
