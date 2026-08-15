@@ -100,5 +100,5 @@ class StagiaireController extends Controller
         $stagiaire->delete();
 
         return redirect('/stagiaires');
-}
+    }
 }

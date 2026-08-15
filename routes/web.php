@@ -6,6 +6,7 @@ use App\Http\Controllers\StagiaireController;
 
 use App\Http\Controllers\ServiceController;
 
+
 Route::get('/stagiaires', [StagiaireController::class, 'index']);
 
 Route::get('/stagiaires/create', [StagiaireController::class, 'create']);
@@ -31,6 +32,8 @@ Route::get('/services/{service}/edit', [ServiceController::class, 'edit']);
 Route::put('/services/{service}', [ServiceController::class, 'update']);
 
 Route::delete('/services/{service}', [ServiceController::class, 'destroy']);
+
+
 
 Route::get('/', function () {
     return view('welcome');

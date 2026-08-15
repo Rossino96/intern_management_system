@@ -8,10 +8,10 @@
 <body>
     <h1>Modifier un stagiaire</h1>
         @if ($errors->any())
-        @foreach ($errors->all() as $error)
-            <p>{{ $error }}</p>
-        @endforeach
-    @endif
+            @foreach ($errors->all() as $error)
+                <p>{{ $error }}</p>
+            @endforeach
+        @endif
 
     <form action="/stagiaires/{{ $stagiaire->id }}" method="POST">
         @csrf
