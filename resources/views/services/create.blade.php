@@ -8,7 +8,7 @@
 <body>
     <h1>Ajouter Service</h1>
         @if ($errors->any())
-            @foreach($errors->all as $error)
+            @foreach($errors->all() as $error)
                 <p>{{ $error }}</p>
             @endforeach
         @endif
@@ -19,7 +19,6 @@
         
         <input type="text" name="nom" placeholder="Nom">
         <input type="text" name="description" placeholder="description">
-    
 
 
         <button type="submit">Enregistrer</button>

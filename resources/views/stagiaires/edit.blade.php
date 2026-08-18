@@ -19,6 +19,7 @@
 
         <input type="text" name="nom" value="{{ $stagiaire->nom }}">
         <input type="text" name="prenom" value="{{ $stagiaire->prenom }}">
+        <input type="text" name="sexe" value="{{ $stagiaire->sexe }}">
         <input type="text" name="date_naissance" value="{{ $stagiaire->date_naissance }}">
         <input type="text" name="telephone" value="{{ $stagiaire->telephone }}">
         <input type="text" name="email" value="{{ $stagiaire->email }}">

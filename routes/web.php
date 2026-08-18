@@ -6,6 +6,8 @@ use App\Http\Controllers\StagiaireController;
 
 use App\Http\Controllers\ServiceController;
 
+use App\Http\Controllers\StageController;
+
 
 Route::get('/stagiaires', [StagiaireController::class, 'index']);
 
@@ -33,6 +35,19 @@ Route::put('/services/{service}', [ServiceController::class, 'update']);
 
 Route::delete('/services/{service}', [ServiceController::class, 'destroy']);
 
+
+
+Route::get('/stages', [StageController::class, 'index']);
+
+Route::get('/stages/create', [StageController::class, 'create']);
+
+Route::post('/stages', [StageController::class, 'store']);
+
+Route::get('/stages/{stage}/edit', [StageController::class, 'edit']);
+
+Route::put('/stages/{service}', [StageController::class, 'update']);
+
+Route::delete('/stages/{service}', [StageController::class, 'destroy']);
 
 
 Route::get('/', function () {
