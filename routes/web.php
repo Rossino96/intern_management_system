@@ -8,6 +8,8 @@ use App\Http\Controllers\ServiceController;
 
 use App\Http\Controllers\StageController;
 
+use App\Http\Controllers\DashboardController;
+
 
 Route::get('/stagiaires', [StagiaireController::class, 'index']);
 
@@ -48,6 +50,16 @@ Route::get('/stages/{stage}/edit', [StageController::class, 'edit']);
 Route::put('/stages/{service}', [StageController::class, 'update']);
 
 Route::delete('/stages/{service}', [StageController::class, 'destroy']);
+
+
+
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+Route::get('/stagiaires', [StagiaireController::class, 'index'])->name('stagiaires.index');
+
+Route::get('/stages', [StageController::class, 'index'])->name('stages.index');
+
+Route::get('/services', [ServiceController::class, 'index'])->name('services.index');
 
 
 Route::get('/', function () {
