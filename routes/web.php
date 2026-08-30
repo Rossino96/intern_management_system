@@ -10,6 +10,8 @@ use App\Http\Controllers\StageController;
 
 use App\Http\Controllers\DashboardController;
 
+use App\Http\Controllers\AuthController;
+
 
 Route::get('/stagiaires', [StagiaireController::class, 'index']);
 
@@ -60,6 +62,12 @@ Route::get('/stagiaires', [StagiaireController::class, 'index'])->name('stagiair
 Route::get('/stages', [StageController::class, 'index'])->name('stages.index');
 
 Route::get('/services', [ServiceController::class, 'index'])->name('services.index');
+
+
+
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+
+Route::post('/login', [AuthController::class, 'login']);
 
 
 Route::get('/', function () {

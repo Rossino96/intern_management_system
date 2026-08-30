@@ -66,6 +66,7 @@
         </div>
 
         <h3 class="mt-4">Répartition des stagiaires par service</h3>
+        
 
             @foreach($repartitionParService as $service)
                 <p>
@@ -78,6 +79,29 @@
                 <h3>Stagiaires par service</h3>
                 <canvas id="repartitionChart"></canvas>
             </div>
+
+            <h3 class="mt-4">Stages par mois</h3>
+            <canvas id="stagesMoisChart"></canvas>
+
+
+            <h3 class="mt-4">Stagiaires ayant plusieurs stages</h3>
+             @foreach($stagiairesMultiplesStages as $stagiaire)
+                    <p>
+                        {{ $stagiaire->nom }} {{ $stagiaire->prenom }}
+                        : {{ $stagiaire->stages_count }} stages
+                    </p>
+                @endforeach
+
+            <h3 class="mt-4">Services les plus demandés</h3>
+
+                @foreach($topServices as $service)
+                    <p>
+                        {{ $service->nom }} :
+                        {{ $service->stages_count }} stage(s)
+                    </p>
+                @endforeach
+
+
 
 
             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -101,6 +125,28 @@
                         datasets: [{
                             label: 'Nombre de stagiaires',
                             data: nombresStagiaires
+                        }]
+                    }
+                });
+            </script>
+
+            <script>
+                const stagesParMois = @json($stagesParMois);
+
+                console.log(stagesParMois);
+            </script>
+
+            <script>
+                const mois = stagesParMois.map(stage => stage.mois);
+                const totalStages = stagesParMois.map(stage => stage.total);
+
+                new Chart(document.getElementById('stagesMoisChart'), {
+                    type: 'line',
+                    data: {
+                        labels: mois,
+                        datasets: [{
+                            label: 'Nombre de stages',
+                            data: totalStages
                         }]
                     }
                 });

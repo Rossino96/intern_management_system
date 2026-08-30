@@ -33,6 +33,26 @@ class DashboardController extends Controller
             )
             ->groupBy('services.id', 'services.nom')
             ->get();
+
+        $stagesParMois = Stage::select
+            (
+                DB::raw('DATE_FORMAT(date_debut, "%Y-%m") as mois'),
+                DB::raw('COUNT(*) as total')
+            )
+                ->groupBy('mois')
+                ->orderBy('mois', 'asc')
+                ->get();
+
+            $stagiairesMultiplesStages = Stagiaire::withCount('stages')
+                ->having('stages_count', '>', 1)
+                ->orderBy('stages_count', 'desc')
+                ->limit(5)
+                ->get();
+
+            $topServices = Service::withCount('stages')
+                ->orderBy('stages_count', 'desc')
+                ->limit(5)
+                ->get();
     
 
         return view('dashboard.index', compact(
@@ -41,7 +61,10 @@ class DashboardController extends Controller
             'totalServices',
             'stagesEnCours',
             'stagesTermines',
-            'repartitionParService'
+            'repartitionParService',
+            'stagesParMois',
+            'stagiairesMultiplesStages',
+            'topServices'
         ));
     }
 }
