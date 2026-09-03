@@ -30,6 +30,10 @@
                     </li>
                 </ul>
             </div>
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button type="submit">Déconnexion</button>
+            </form>
         </div>
     </nav>
 

@@ -12,62 +12,125 @@ use App\Http\Controllers\DashboardController;
 
 use App\Http\Controllers\AuthController;
 
-
-Route::get('/stagiaires', [StagiaireController::class, 'index']);
-
-Route::get('/stagiaires/create', [StagiaireController::class, 'create']);
-
-Route::post('/stagiaires', [StagiaireController::class, 'store']);
-
-Route::get('/stagiaires/{stagiaire}/edit', [StagiaireController::class, 'edit']);
-
-Route::put('/stagiaires/{stagiaire}', [StagiaireController::class, 'update']);
-
-Route::delete('/stagiaires/{stagiaire}', [StagiaireController::class, 'destroy']);
+use App\Http\Controllers\UserController;
 
 
+Route::middleware('auth')->group(function () {
 
-Route::get('/services', [ServiceController::class, 'index']);
-
-Route::get('/services/create', [ServiceController::class, 'create']);
-
-Route::post('/services', [ServiceController::class, 'store']);
-
-Route::get('/services/{service}/edit', [ServiceController::class, 'edit']);
-
-Route::put('/services/{service}', [ServiceController::class, 'update']);
-
-Route::delete('/services/{service}', [ServiceController::class, 'destroy']);
+    // Dashboard : Admin + RH + Encadrant
+    Route::get('/dashboard', [DashboardController::class, 'index'])
+        ->middleware('role:admin,rh,encadrant')
+        ->name('dashboard');
 
 
+    // STAGIAIRES : consultation
+    // Admin + RH + Encadrant
 
-Route::get('/stages', [StageController::class, 'index']);
+    Route::middleware('role:admin,rh,encadrant')->group(function () {
 
-Route::get('/stages/create', [StageController::class, 'create']);
+        Route::get('/stagiaires', [StagiaireController::class, 'index'])
+            ->name('stagiaires.index');
+    });
 
-Route::post('/stages', [StageController::class, 'store']);
+    // STAGIAIRES : gestion
+    // Admin + RH uniquement
 
-Route::get('/stages/{stage}/edit', [StageController::class, 'edit']);
+    Route::middleware('role:admin,rh')->group(function () {
 
-Route::put('/stages/{service}', [StageController::class, 'update']);
+        Route::get('/stagiaires/create', [StagiaireController::class, 'create'])
+            ->name('stagiaires.create');
 
-Route::delete('/stages/{service}', [StageController::class, 'destroy']);
+        Route::post('/stagiaires', [StagiaireController::class, 'store'])
+            ->name('stagiaires.store');
+
+        Route::get('/stagiaires/{stagiaire}/edit', [StagiaireController::class, 'edit'])
+            ->name('stagiaires.edit');
+
+        Route::put('/stagiaires/{stagiaire}', [StagiaireController::class, 'update'])
+            ->name('stagiaires.update');
+
+        Route::delete('/stagiaires/{stagiaire}', [StagiaireController::class, 'destroy'])
+            ->name('stagiaires.destroy');
+    });
 
 
+    // SERVICES : Admin + RH
 
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::middleware('role:admin,rh')->group(function () {
 
-Route::get('/stagiaires', [StagiaireController::class, 'index'])->name('stagiaires.index');
+        Route::get('/services', [ServiceController::class, 'index'])
+            ->name('services.index');
 
-Route::get('/stages', [StageController::class, 'index'])->name('stages.index');
+        Route::get('/services/create', [ServiceController::class, 'create'])
+            ->name('services.create');
 
-Route::get('/services', [ServiceController::class, 'index'])->name('services.index');
+        Route::post('/services', [ServiceController::class, 'store'])
+            ->name('services.store');
+
+        Route::get('/services/{service}/edit', [ServiceController::class, 'edit'])
+            ->name('services.edit');
+
+        Route::put('/services/{service}', [ServiceController::class, 'update'])
+            ->name('services.update');
+
+        Route::delete('/services/{service}', [ServiceController::class, 'destroy'])
+            ->name('services.destroy');
+    });
+
+    // STAGES : Admin + RH + Encadrant
+
+    Route::middleware('role:admin,rh,encadrant')->group(function () {
+
+        Route::get('/stages', [StageController::class, 'index'])
+            ->name('stages.index');
+
+        Route::get('/stages/create', [StageController::class, 'create'])
+            ->name('stages.create');
+
+        Route::post('/stages', [StageController::class, 'store'])
+            ->name('stages.store');
+
+        Route::get('/stages/{stage}/edit', [StageController::class, 'edit'])
+            ->name('stages.edit');
+
+        Route::put('/stages/{stage}', [StageController::class, 'update'])
+            ->name('stages.update');
+
+        Route::delete('/stages/{stage}', [StageController::class, 'destroy'])
+            ->name('stages.destroy');
+    });
+
+    // UTILISATEURS : Admin uniquement
+
+    Route::middleware('role:admin')->group(function () {
+
+        Route::get('/users', [UserController::class, 'index'])
+            ->name('users.index');
+
+        Route::get('/users/create', [UserController::class, 'create'])
+            ->name('users.create');
+
+        Route::post('/users', [UserController::class, 'store'])
+            ->name('users.store');
+
+        Route::get('/users/{user}/edit', [UserController::class, 'edit'])
+            ->name('users.edit');
+
+        Route::put('/users/{user}', [UserController::class, 'update'])
+            ->name('users.update');
+
+        Route::delete('/users/{user}', [UserController::class, 'destroy'])
+            ->name('users.destroy');
+    });
+});
 
 
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 
 Route::post('/login', [AuthController::class, 'login']);
+
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
 Route::get('/', function () {
