@@ -75,6 +75,12 @@ class UserController extends Controller
 
         public function destroy(User $user)
         {
+            if ($user->role === 'encadrant' && $user->stages()->exists()) {
+                return redirect()
+                    ->route('users.index')
+                    ->with('error', 'Impossible de supprimer cet encadrant car il possède encore des stages.');
+            }
+
             $user->delete();
 
             return redirect()

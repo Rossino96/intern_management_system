@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Stage;
 use App\Models\Stagiaire;
 use App\Models\Service;
+use App\Models\User;
 
 class StageController extends Controller
 {
@@ -21,8 +22,13 @@ class StageController extends Controller
     {
         $stagiaires = Stagiaire::all();
         $services = Service::all();
+        $encadrants = User::where('role', 'encadrant')->get();
 
-        return view('stages.create', compact('stagiaires', 'services'));
+        return view('stages.create', compact(
+            'stagiaires', 
+            'services',
+            'encadrants'
+        ));
     }
 
 
@@ -32,21 +38,23 @@ class StageController extends Controller
         $stage = new Stage();
         
         $request->validate([
-            'date_debut'=>'required',
-            'date_fin'=>'required',
-            'statut'=>'required',
-            'theme'=>'required',
             'stagiaire_id' => 'required',
             'service_id' => 'required',
+            'encadrant_id' => 'required|exists:users,id',
+            'date_debut'=>'required',
+            'date_fin'=>'required',
+            'statut' => 'required|in:À venir,En cours,Terminé',
+            'theme'=>'required',
             ]);
 
             
+            $stage->stagiaire_id = $request->stagiaire_id;
+            $stage->service_id = $request->service_id;
+            $stage->encadrant_id = $request->encadrant_id;
             $stage->date_debut = $request->date_debut;
             $stage->date_fin = $request->date_fin;
             $stage->statut = $request->statut;
             $stage->theme = $request->theme;
-            $stage->stagiaire_id = $request->stagiaire_id;
-            $stage->service_id = $request->service_id;
 
         $stage->save();
 
@@ -57,10 +65,21 @@ class StageController extends Controller
     public function edit($id)
     {
         $stage = Stage::find($id);
+           if (
+            auth()->user()->role === 'encadrant' &&
+            $stage->encadrant_id !== auth()->user()->id
+        ) {
+            abort(403);
+        }
         $stagiaires = Stagiaire::all();
         $services = Service::all();
+        $encadrants = User::where('role', 'encadrant')->get();
 
-        return view('stages.edit', compact('stage', 'stagiaires', 'services'));
+        return view('stages.edit', compact(
+            'stage', 
+            'stagiaires', 
+            'encadrants',
+            'services'));
     }
 
 
@@ -69,14 +88,25 @@ class StageController extends Controller
         $request->validate([
             'stagiaire_id' => 'required',
             'service_id' => 'required',
+            'encadrant_id' => 'required|exists:users,id',
             'date_debut'=>'required',
             'date_fin'=>'required',
-            'statut'=>'required',
+            'statut' => 'required|in:À venir,En cours,Terminé',
             'theme'=>'required',
         ]);
+        if (
+            auth()->user()->role === 'encadrant' &&
+            $stage->encadrant_id !== auth()->user()->id
+        ) {
+            abort(403);
+        }
 
         $stage->stagiaire_id = $request->stagiaire_id;
         $stage->service_id = $request->service_id;
+        if (in_array(auth()->user()->role, ['admin', 'rh'])) 
+            {
+                $stage->encadrant_id = $request->encadrant_id;
+            }
         $stage->date_debut = $request->date_debut;
         $stage->date_fin = $request->date_fin;
         $stage->statut = $request->statut;
@@ -90,6 +120,13 @@ class StageController extends Controller
 
     public function destroy(Stage $stage)
     {
+        if (
+            auth()->user()->role === 'encadrant' &&
+            $stage->encadrant_id !== auth()->user()->id
+        ) {
+            abort(403);
+        }
+
         $stage->delete();
 
         return redirect('/stages');

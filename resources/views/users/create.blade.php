@@ -1,11 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+
 @extends('layouts.app')
 
     @section('title', 'Ajouter un utilisateur')
@@ -25,6 +18,10 @@
                     </ul>
                 </div>
             @endif
+
+            <a href="{{ route('users.index') }}" class="btn btn-secondary">
+                ← Retour aux users
+            </a>
 
             <form action="{{ route('users.store') }}" method="POST">
 
@@ -89,5 +86,3 @@
         </div>
 
     @endsection
-</body>
-</html>

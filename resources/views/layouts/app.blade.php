@@ -16,18 +16,48 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
+                    @auth
+
+                    {{-- Dashboard : tous les rôles --}}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a>
+                        <a class="nav-link" href="{{ route('dashboard') }}">
+                            Dashboard
+                        </a>
                     </li>
+
+                    {{-- Stagiaires : tous les rôles --}}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('stagiaires.index') }}">Stagiaires</a>
+                        <a class="nav-link" href="{{ route('stagiaires.index') }}">
+                            Stagiaires
+                        </a>
                     </li>
+
+                    {{-- Stages : tous les rôles --}}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('stages.index') }}">Stages</a>
+                        <a class="nav-link" href="{{ route('stages.index') }}">
+                            Stages
+                        </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('services.index') }}">Services</a>
-                    </li>
+
+                    {{-- Services : Admin + RH --}}
+                    @if(in_array(auth()->user()->role, ['admin', 'rh']))
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('services.index') }}">
+                                Services
+                            </a>
+                        </li>
+                    @endif
+
+                    {{-- Utilisateurs : Admin uniquement --}}
+                    @if(auth()->user()->role === 'admin')
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('users.index') }}">
+                                Utilisateurs
+                            </a>
+                        </li>
+                    @endif
+
+                @endauth
                 </ul>
             </div>
             <form action="{{ route('logout') }}" method="POST">

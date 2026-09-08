@@ -1,17 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+@extends('layouts.app')
+
+@section('title', 'Modifier un stage')
+
+@section('content')
     <h1>Modifer un stage</h1>
         @if ($errors->any())
             @foreach ( $errors->all() as $error)
                 <p>{{ $error }}</p>
             @endforeach
         @endif
+
+    <a href="{{ route('stages.index') }}" class="btn btn-secondary">
+        ← Retour aux stages
+    </a>
 
 
     <form action="/stages/{{ $stage->id }}" method="POST">
@@ -36,12 +37,48 @@
                 @endforeach
             </select>
 
+        @if(in_array(auth()->user()->role, ['admin', 'rh']))
+            <select name="encadrant_id">
+                @foreach ($encadrants as $encadrant)
+                    <option value="{{ $encadrant->id }}"
+                        {{ $stage->encadrant_id == $encadrant->id ? 'selected' : '' }}>
+                        {{ $encadrant->name }}
+                    </option>
+                @endforeach
+            </select>
+        @else
+            <input type="hidden" name="encadrant_id" value="{{ $stage->encadrant_id }}">
+
+            <p>
+                Encadrant :
+                {{ $stage->encadrant->name }}
+            </p>
+        @endif
+
         <input type="date" name="date_debut" value="{{$stage->date_debut}}">
         <input type="date" name="date_fin" value="{{$stage->date_fin}}">
-        <input type="text" name="statut" value="{{$stage->statut}}">
+
+        <select name="statut">
+            <option value="">-- Choisir un statut --</option>
+
+            <option value="À venir"
+                {{ $stage->statut == 'À venir' ? 'selected' : '' }}>
+                À venir
+            </option>
+
+            <option value="En cours"
+                {{ $stage->statut == 'En cours' ? 'selected' : '' }}>
+                En cours
+            </option>
+
+            <option value="Terminé"
+                {{ $stage->statut == 'Terminé' ? 'selected' : '' }}>
+                Terminé
+            </option>
+        </select>
+
         <input type="text" name="theme" value="{{$stage->theme}}">
 
         <button type="submit">Modifier</button>
     </form>
-</body>
-</html>
+@endsection

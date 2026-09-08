@@ -1,17 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+@extends('layouts.app')
+
+@section('title', 'Modifier un stagiaire')
+
+@section('content')
     <h1>Modifier un stagiaire</h1>
         @if ($errors->any())
             @foreach ($errors->all() as $error)
                 <p>{{ $error }}</p>
             @endforeach
         @endif
+
+    <a href="{{ route('stagiaires.index') }}" class="btn btn-secondary">
+        ← Retour aux stagiaires
+    </a>
 
     <form action="/stagiaires/{{ $stagiaire->id }}" method="POST">
         @csrf
@@ -31,5 +32,4 @@
         <button type="submit">Modifier</button>
     </form>
 </form>
-</body>
-</html> 
+@endsection

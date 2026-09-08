@@ -1,12 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+@extends('layouts.app')
+
+@section('title', 'Liste des services')
+
+@section('content')
     <h1>Liste des services</h1>
+
+    @if(in_array(auth()->user()->role, ['admin', 'rh'])) 
+        <a href="{{ route('services.create') }}" class="btn btn-primary"> 
+            <i class="fas fa-user-plus"></i>
+            Ajouter un service 
+        </a> 
+    @endif
 
     <table>
         <tr>
@@ -17,15 +21,25 @@
         <tr>
             <td>{{$service->nom}}</td>
             <td>{{$service->description}}</td>
-            <td><a href="http://127.0.0.1:8000/services/1/edit">Modifier</a></td>
-            <td>
-                <form action="/services/{{ $service->id }}" method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit">Supprimer</button>
-                </form>
-            </td>
+
+            @if(in_array(auth()->user()->role, ['admin', 'rh'])) 
+                <td> 
+                    <a href="{{ route('services.edit', $service->id) }}"
+                        class="btn btn-warning btn-sm"> 
+                        Modifier 
+                    </a> 
+                </td>
+                <td> 
+                    <form action="{{ route('services.destroy', $service->id) }}" method="POST"> 
+                        @csrf @method('DELETE') 
+                        <button type="submit"
+                            class="btn btn-danger btn-sm"
+                            onclick="return confirm('Voulez-vous vraiment supprimer cet élément ?')">
+                            Supprimer
+                        </button> 
+                    </form> 
+                </td>
+            @endif
         </tr>
     @endforeach
-</body>
-</html>
+@endsection

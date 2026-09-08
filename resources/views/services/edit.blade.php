@@ -1,17 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+@extends('layouts.app')
+
+@section('title', 'Modifier un service')
+
+@section('content')
     <h1>Modifer un service</h1>
         @if ($errors->any())
             @foreach ( $errors->all() as $error)
                 <p>{{ $error }}</p>
             @endforeach
         @endif
+
+    <a href="{{ route('services.index') }}" class="btn btn-secondary">
+        ← Retour aux services
+    </a>
 
 
     <form action="/services/{{ $service->id }}" method="POST">
@@ -23,5 +24,4 @@
 
         <button type="submit">Modifier</button>
     </form>
-</body>
-</html>
+@endsection
