@@ -31,5 +31,4 @@
 
         <button type="submit">Modifier</button>
     </form>
-</form>
 @endsection

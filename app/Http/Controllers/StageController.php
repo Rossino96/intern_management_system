@@ -58,7 +58,9 @@ class StageController extends Controller
 
         $stage->save();
 
-        return redirect('/stages');
+        return redirect()
+            ->route('stages.index')
+            ->with('success', 'Stage ajouté avec succès.');
     }
 
 
@@ -114,7 +116,9 @@ class StageController extends Controller
 
         $stage->save();
 
-        return redirect('/stages');
+        return redirect()
+            ->route('stages.index')
+            ->with('success', 'Stage modifié avec succès.');
     }
 
 
@@ -129,6 +133,8 @@ class StageController extends Controller
 
         $stage->delete();
 
-        return redirect('/stages');
+        return redirect()
+            ->route('stages.index')
+            ->with('success', 'Stage supprimé avec succès.');
     }
 }

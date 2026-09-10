@@ -23,36 +23,40 @@ Route::middleware('auth')->group(function () {
         ->name('dashboard');
 
 
-    // STAGIAIRES : consultation
-    // Admin + RH + Encadrant
-
-    Route::middleware('role:admin,rh,encadrant')->group(function () {
-
-        Route::get('/stagiaires', [StagiaireController::class, 'index'])
-            ->name('stagiaires.index');
-    });
-
-    // STAGIAIRES : gestion
-    // Admin + RH uniquement
-
-    Route::middleware('role:admin,rh')->group(function () {
-
-        Route::get('/stagiaires/create', [StagiaireController::class, 'create'])
+        
+        // STAGIAIRES : gestion
+        // Admin + RH uniquement
+        
+        Route::middleware('role:admin,rh')->group(function () {
+            
+            
+            Route::get('/stagiaires/create', [StagiaireController::class, 'create'])
             ->name('stagiaires.create');
-
-        Route::post('/stagiaires', [StagiaireController::class, 'store'])
+            
+            Route::post('/stagiaires', [StagiaireController::class, 'store'])
             ->name('stagiaires.store');
-
-        Route::get('/stagiaires/{stagiaire}/edit', [StagiaireController::class, 'edit'])
+            
+            Route::get('/stagiaires/{stagiaire}/edit', [StagiaireController::class, 'edit'])
             ->name('stagiaires.edit');
-
-        Route::put('/stagiaires/{stagiaire}', [StagiaireController::class, 'update'])
+            
+            Route::put('/stagiaires/{stagiaire}', [StagiaireController::class, 'update'])
             ->name('stagiaires.update');
-
-        Route::delete('/stagiaires/{stagiaire}', [StagiaireController::class, 'destroy'])
+            
+            Route::delete('/stagiaires/{stagiaire}', [StagiaireController::class, 'destroy'])
             ->name('stagiaires.destroy');
-    });
-
+            });
+            
+            // STAGIAIRES : consultation
+            // Admin + RH + Encadrant
+        
+            Route::middleware('role:admin,rh,encadrant')->group(function () {
+                Route::get('/stagiaires/{stagiaire}', [StagiaireController::class, 'show'])
+                    ->name('stagiaires.show');
+        
+                Route::get('/stagiaires', [StagiaireController::class, 'index'])
+                    ->name('stagiaires.index');
+        
+            });
 
     // SERVICES : Admin + RH
 

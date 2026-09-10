@@ -33,7 +33,9 @@ class ServiceController extends Controller
 
         $service->save();
 
-        return redirect('/services');
+        return redirect()
+            ->route('services.index')
+            ->with('success', 'service ajouté avec succès.');
     }
 
     public function edit($id)
@@ -54,13 +56,17 @@ class ServiceController extends Controller
 
         $service->save();
 
-        return redirect('/services');
+        return redirect()
+            ->route('services.index')
+            ->with('success', 'service modifié avec succès.');
     }
 
     public function destroy(Service $service)
     {
         $service->delete();
 
-        return redirect('/services');
+        return redirect()
+            ->route('services.index')
+            ->with('success', 'service supprimé avec succès.');
     }
 }

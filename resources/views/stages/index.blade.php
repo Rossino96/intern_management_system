@@ -4,6 +4,18 @@
 
 @section('content')
 
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+
 <div class="container">
 
     <div class="d-flex justify-content-between align-items-center mb-4">
@@ -42,24 +54,19 @@
             <tbody>
 
                 @foreach ($stages as $stage)
-
                     <tr>
-
                         <td>{{ $stage->date_debut }}</td>
-
                         <td>{{ $stage->date_fin }}</td>
-
                         <td>{{ $stage->statut }}</td>
-
                         <td>{{ $stage->theme }}</td>
-
-                        <td>
+                        <td>    
 
                             @if(
-                                in_array(auth()->user()->role, ['admin', 'rh']) ||
+                                auth()->user()->role === 'admin' ||
+                                auth()->user()->role === 'rh' ||
                                 (
                                     auth()->user()->role === 'encadrant' &&
-                                    $stage->encadrant_id === auth()->user()->id
+                                    $stage->encadrant_id == auth()->user()->id
                                 )
                             )
 
@@ -76,32 +83,22 @@
                                     @method('DELETE')
 
                                     <button type="submit"
-                                            class="btn btn-danger btn-sm">
-                                        Supprimer
+                                        class="btn btn-danger btn-sm"
+                                        onclick="return confirm('Voulez-vous vraiment supprimer cet élément ?')">
+                                            Supprimer
                                     </button>
-
                                 </form>
-
                             @else
-
                                 <span class="text-muted">
                                     Consultation
                                 </span>
-
                             @endif
-
                         </td>
-
                     </tr>
-
                 @endforeach
-
             </tbody>
-
         </table>
-
     </div>
-
 </div>
 
 @endsection

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Stagiaire;
+use App\Models\Stage;
+use App\Models\Service;
 
 
 class StagiaireController extends Controller
@@ -11,7 +13,7 @@ class StagiaireController extends Controller
 {
     public function index()
     {
-        $stagiaires = Stagiaire::all();
+        $stagiaires = Stagiaire::withCount('stages')->get();
 
         return view('stagiaires.index', compact('stagiaires'));
     }
@@ -53,7 +55,9 @@ class StagiaireController extends Controller
 
         $stagiaire->save();
 
-        return redirect('/stagiaires');
+        return redirect()
+            ->route('stagiaires.index')
+            ->with('success', 'Stagiaire ajouté avec succès.');
     }
 
     public function update(Request $request, Stagiaire $stagiaire)
@@ -84,7 +88,9 @@ class StagiaireController extends Controller
 
         $stagiaire->save();
 
-        return redirect('/stagiaires');
+        return redirect()
+            ->route('stagiaires.index')
+            ->with('success', 'Stagiaire modifié avec succès.');
     }
 
 
@@ -99,6 +105,15 @@ class StagiaireController extends Controller
     {
         $stagiaire->delete();
 
-        return redirect('/stagiaires');
+        return redirect()
+            ->route('stagiaires.index')
+            ->with('success', 'Stagiaire supprimé avec succès.');
+    }
+
+    public function show(Stagiaire $stagiaire)
+    {
+        $stagiaire->load('stages.service', 'stages.encadrant');
+        
+        return view('stagiaires.show', compact('stagiaire'));
     }
 }
