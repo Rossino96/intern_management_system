@@ -1,88 +1,40 @@
-
 @extends('layouts.app')
-
-    @section('title', 'Ajouter un utilisateur')
-
-        @section('content')
-
-        <div class="container">
-
-            <h1 class="mb-4">Ajouter un utilisateur</h1>
-
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul class="mb-0">
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-
-            <a href="{{ route('users.index') }}" class="btn btn-secondary">
-                ← Retour aux users
-            </a>
-
-            <form action="{{ route('users.store') }}" method="POST">
-
-                @csrf
-
-                <div class="mb-3">
-                    <label for="name" class="form-label">Nom</label>
-
-                    <input type="text"
-                        name="name"
-                        id="name"
-                        class="form-control"
-                        value="{{ old('name') }}"
-                        required>
-                </div>
-
-                <div class="mb-3">
-                    <label for="email" class="form-label">Email</label>
-
-                    <input type="email"
-                        name="email"
-                        id="email"
-                        class="form-control"
-                        value="{{ old('email') }}"
-                        required>
-                </div>
-
-                <div class="mb-3">
-                    <label for="password" class="form-label">Mot de passe</label>
-
-                    <input type="password"
-                        name="password"
-                        id="password"
-                        class="form-control"
-                        required>
-                </div>
-
-                <div class="mb-3">
-                    <label for="role" class="form-label">Rôle</label>
-
-                    <select name="role" id="role" class="form-select" required>
-
-                        <option value="">-- Choisir un rôle --</option>
-
-                        <option value="admin">Administrateur</option>
-                        <option value="rh">Responsable RH</option>
-                        <option value="encadrant">Encadrant</option>
-
-                    </select>
-                </div>
-
-                <button type="submit" class="btn btn-primary">
-                    Enregistrer
-                </button>
-
-                <a href="{{ route('users.index') }}" class="btn btn-secondary">
-                    Annuler
-                </a>
-
-            </form>
-
+@section('title', 'Ajouter un utilisateur')
+@section('content')
+    <div class="page-head">
+        <div>
+            <h1 class="page-title">Ajouter un utilisateur</h1>
+            <p class="page-subtitle">Créez un compte avec son rôle.</p>
+        </div><a class="btn btn-secondary" href="{{ route('users.index') }}">← Retour</a>
+    </div>
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
         </div>
-
-    @endsection
+    @endif
+    <div class="card form-card">
+        <form action="{{ route('users.store') }}" method="POST">@csrf<div class="form-grid">
+                <div class="form-group full"><label class="form-label" for="name">Nom</label><input class="form-control"
+                        id="name" name="name" value="{{ old('name') }}" required></div>
+                <div class="form-group"><label class="form-label" for="email">Email</label><input class="form-control"
+                        type="email" id="email" name="email" value="{{ old('email') }}" required></div>
+                <div class="form-group"><label class="form-label" for="password">Mot de passe</label><input
+                        class="form-control" type="password" id="password" name="password" autocomplete="new-password"
+                        required></div>
+                <div class="form-group full"><label class="form-label" for="role">Rôle</label><select
+                        class="form-control" id="role" name="role" required>
+                        <option value="">-- Choisir un rôle --</option>
+                        <option value="admin" {{ old('role') === 'admin' ? 'selected' : '' }}>Administrateur</option>
+                        <option value="rh" {{ old('role') === 'rh' ? 'selected' : '' }}>Responsable RH</option>
+                        <option value="encadrant" {{ old('role') === 'encadrant' ? 'selected' : '' }}>Encadrant</option>
+                    </select></div>
+            </div>
+            <div class="form-footer"><a class="btn btn-secondary" href="{{ route('users.index') }}">Annuler</a><button
+                    class="btn btn-primary" type="submit">Enregistrer</button></div>
+        </form>
+    </div>
+@endsection

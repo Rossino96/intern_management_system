@@ -1,79 +1,54 @@
 @extends('layouts.app')
-
-@section('title', 'Liste des services')
-
+@section('title', 'Services')
 @section('content')
-
-    @if(session('success'))
+    @if (session('success'))
         <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
+            {{ session('success') }}</div>
     @endif
-
-    @if(session('error'))
-        <div class="alert alert-danger">
-            {{ session('error') }}
-        </div>
+    @if (session('error'))
+        <div class="alert alert-danger">{{ session('error') }}</div>
     @endif
-    
-<div class="container">
-
-    <div class="d-flex justify-content-between align-items-center mb-4">
-
-        <h1>Liste des services</h1>       
-
+    <div class="page-head">
         <div>
-            <a href="{{ route('dashboard') }}" class="btn btn-secondary">
-                ← Dashboard
-            </a>
-
-            @if(in_array(auth()->user()->role, ['admin', 'rh'])) 
-                    <a href="{{ route('services.create') }}" class="btn btn-primary"> 
-                    <i class="fas fa-user-plus"></i>
-                    Ajouter un service 
-                </a> 
+            <h1 class="page-title">Services</h1>
+            <p class="page-subtitle">Gestion des services disponibles.</p>
+        </div>
+        <div class="actions"><a class="btn btn-secondary" href="{{ route('dashboard') }}">← Dashboard</a>
+            @if (in_array(auth()->user()->role, ['admin', 'rh']))
+                <a class="btn btn-primary" href="{{ route('services.create') }}">+ Ajouter</a>
             @endif
         </div>
-
     </div>
-
-    <table class="table table-bordered table-striped">
-        <thead class="table-dark">
-            <tr>
-                <td>nom du service</td>
-                <td>Description</td>
-                <td>Actions</td>
-            </tr>
-        </thead>
-
-        <tbody>
-
-            @foreach ($services as $service)
-            <tr>
-                <td>{{$service->nom}}</td>
-                <td>{{$service->description}}</td>
-
-                <td> 
-                    @if(in_array(auth()->user()->role, ['admin', 'rh'])) 
-                        <a href="{{ route('services.edit', $service->id) }}"
-                            class="btn btn-warning btn-sm"> 
-                            Modifier 
-                        </a> 
-                    
-                        <form action="{{ route('services.destroy', $service->id) }}" 
-                        method="POST"
-                        class="d-inline"> 
-                            @csrf 
-                            @method('DELETE') 
-                            <button type="submit"
-                                class="btn btn-danger btn-sm"
-                                onclick="return confirm('Voulez-vous vraiment supprimer cet élément ?')">
-                                Supprimer
-                            </button> 
-                        </form> 
-                    @endif
-                </td>
-            </tr>
-        </tbody>
-    @endforeach
+    <div class="card card-body table-wrap">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Description</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse($services as $service)
+                    <tr>
+                        <td><strong>{{ $service->nom }}</strong></td>
+                        <td>{{ $service->description }}</td>
+                        <td>
+                            @if (in_array(auth()->user()->role, ['admin', 'rh']))
+                                <div class="table-actions"><a class="btn btn-warning"
+                                        href="{{ route('services.edit', $service->id) }}">Modifier</a>
+                                    <form action="{{ route('services.destroy', $service->id) }}" method="POST"
+                                        data-confirm="Voulez-vous vraiment supprimer ce service ?">@csrf
+                                        @method('DELETE')<button class="btn btn-danger" type="submit">Supprimer</button>
+                                    </form>
+                                </div>
+                            @endif
+                        </td>
+                </tr>@empty<tr>
+                        <td colspan="3" class="muted">Aucun service trouvé.</td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
 @endsection

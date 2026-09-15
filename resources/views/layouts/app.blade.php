@@ -1,92 +1,62 @@
 <!DOCTYPE html>
-
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>@yield('title', 'Gestion de Stages')</title>
-
-@vite(['resources/css/app.css', 'resources/js/app.js'])
-
+    <title>@yield('title', 'Gestion de Stages')</title>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
+<body>
+    <nav class="app-nav">
+        <div class="nav-inner">
+            <a class="brand" href="{{ route('dashboard') }}">Gestion de Stages</a>
 
-<body class="bg-gray-100 text-gray-800">
-
-<nav class="bg-gray-900 text-white shadow-lg">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-        <div class="flex items-center justify-between h-16">
-
-            {{-- Logo / nom de l'application --}}
-            <a href="{{ route('dashboard') }}"
-               class="text-xl font-bold tracking-wide hover:text-blue-400 transition">
-                Gestion Stages
-            </a>
-
-            {{-- Navigation --}}
             @auth
-                <div class="hidden md:flex items-center gap-2">
-
-                    {{-- Dashboard --}}
-                    <a href="{{ route('dashboard') }}"
-                       class="px-3 py-2 rounded-lg text-sm font-medium hover:bg-gray-800 hover:text-blue-400 transition">
-                        Dashboard
-                    </a>
-
-                    {{-- Stagiaires --}}
-                    <a href="{{ route('stagiaires.index') }}"
-                       class="px-3 py-2 rounded-lg text-sm font-medium hover:bg-gray-800 hover:text-blue-400 transition">
-                        Stagiaires
-                    </a>
-
-                    {{-- Stages --}}
-                    <a href="{{ route('stages.index') }}"
-                       class="px-3 py-2 rounded-lg text-sm font-medium hover:bg-gray-800 hover:text-blue-400 transition">
-                        Stages
-                    </a>
-
-                    {{-- Services : Admin + RH --}}
+                <div class="nav-links">
+                    <a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a>
+                    <a class="nav-link" href="{{ route('stagiaires.index') }}">Stagiaires</a>
+                    <a class="nav-link" href="{{ route('stages.index') }}">Stages</a>
                     @if(in_array(auth()->user()->role, ['admin', 'rh']))
-                        <a href="{{ route('services.index') }}"
-                           class="px-3 py-2 rounded-lg text-sm font-medium hover:bg-gray-800 hover:text-blue-400 transition">
-                            Services
-                        </a>
+                        <a class="nav-link" href="{{ route('services.index') }}">Services</a>
                     @endif
-
-                    {{-- Utilisateurs : Admin uniquement --}}
                     @if(auth()->user()->role === 'admin')
-                        <a href="{{ route('users.index') }}"
-                           class="px-3 py-2 rounded-lg text-sm font-medium hover:bg-gray-800 hover:text-blue-400 transition">
-                            Utilisateurs
-                        </a>
+                        <a class="nav-link" href="{{ route('users.index') }}">Utilisateurs</a>
                     @endif
-
                 </div>
+                <div class="nav-user">
+                    <span class="nav-link">{{ auth()->user()->name }}</span>
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <button class="btn btn-danger" type="submit">Déconnexion</button>
+                    </form>
+                </div>
+                <button class="nav-toggle" type="button" data-nav-toggle aria-label="Ouvrir le menu">☰</button>
             @endauth
+        </div>
 
-            {{-- Déconnexion --}}
-            @auth
+        @auth
+            <div class="mobile-menu" data-mobile-menu>
+                <a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a>
+                <a class="nav-link" href="{{ route('stagiaires.index') }}">Stagiaires</a>
+                <a class="nav-link" href="{{ route('stages.index') }}">Stages</a>
+                @if(in_array(auth()->user()->role, ['admin', 'rh']))
+                    <a class="nav-link" href="{{ route('services.index') }}">Services</a>
+                @endif
+                @if(auth()->user()->role === 'admin')
+                    <a class="nav-link" href="{{ route('users.index') }}">Utilisateurs</a>
+                @endif
                 <form action="{{ route('logout') }}" method="POST">
                     @csrf
-
-                    <button type="submit"
-                            class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-lg transition">
-                        Déconnexion
-                    </button>
+                    <button class="btn btn-danger" type="submit">Déconnexion</button>
                 </form>
-            @endauth
+            </div>
+        @endauth
+    </nav>
 
-        </div>
-    </div>
-</nav>
+    <main class="app-main">
+        @yield('content')
+    </main>
 
-{{-- Contenu des pages --}}
-<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    @yield('content')
-</main>
-
-@stack('scripts')
-
+    @stack('scripts')
 </body>
 </html>
