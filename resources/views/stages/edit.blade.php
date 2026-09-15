@@ -3,7 +3,9 @@
 @section('title', 'Modifier un stage')
 
 @section('content')
+
     <h1>Modifer un stage</h1>
+    
         @if ($errors->any())
             @foreach ( $errors->all() as $error)
                 <p>{{ $error }}</p>

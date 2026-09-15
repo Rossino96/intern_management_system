@@ -48,6 +48,7 @@ Route::middleware('auth')->group(function () {
             
             // STAGIAIRES : consultation
             // Admin + RH + Encadrant
+            
         
             Route::middleware('role:admin,rh,encadrant')->group(function () {
                 Route::get('/stagiaires/{stagiaire}', [StagiaireController::class, 'show'])

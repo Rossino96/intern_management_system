@@ -1,157 +1,285 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    @extends('layouts.app')
+@extends('layouts.app')
 
-    @section('content')
+@section('title', 'Dashboard')
 
-        <div class="container">
+@section('content')
 
-            <h1 class="mb-4">Dashboard</h1>
+<div class="space-y-8">
 
-            <div class="row">
+{{-- En-tête --}}
+<div>
+    <h1 class="text-3xl font-bold text-gray-900">
+        Dashboard
+    </h1>
 
-                <div class="col-md-4 mb-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5>Stagiaires</h5>
-                            <h2>{{ $totalStagiaires }}</h2>
-                        </div>
-                    </div>
-                </div>
+    <p class="mt-1 text-gray-500">
+        Vue d'ensemble de la gestion des stages
+    </p>
+</div>
 
-                <div class="col-md-4 mb-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5>Stages</h5>
-                            <h2>{{ $totalStages }}</h2>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="col-md-4 mb-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5>Services</h5>
-                            <h2>{{ $totalServices }}</h2>
-                        </div>
-                    </div>
-                </div>
+{{-- Cartes statistiques --}}
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
 
-                <div class="col-md-6 mb-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5>Stages en cours</h5>
-                            <h2>{{ $stagesEnCours }}</h2>
-                        </div>
-                    </div>
-                </div>
+    {{-- Stagiaires --}}
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6
+                hover:shadow-md transition">
+        <p class="text-sm font-medium text-gray-500">
+            Stagiaires
+        </p>
 
-                <div class="col-md-6 mb-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5>Stages terminés</h5>
-                            <h2>{{ $stagesTermines }}</h2>
-                        </div>
-                    </div>
-                </div>
+        <p class="mt-2 text-3xl font-bold text-blue-600">
+            {{ $totalStagiaires }}
+        </p>
 
-            </div>
+        <p class="mt-1 text-sm text-gray-400">
+            Stagiaires enregistrés
+        </p>
+    </div>
 
-        </div>
 
-        <h3 class="mt-4">Répartition des stagiaires par service</h3>
-        
+    {{-- Stages --}}
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6
+                hover:shadow-md transition">
+        <p class="text-sm font-medium text-gray-500">
+            Stages
+        </p>
 
-            @foreach($repartitionParService as $service)
-                <p>
-                    {{ $service->nom }} :
+        <p class="mt-2 text-3xl font-bold text-indigo-600">
+            {{ $totalStages }}
+        </p>
+
+        <p class="mt-1 text-sm text-gray-400">
+            Stages enregistrés
+        </p>
+    </div>
+
+
+    {{-- Services --}}
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6
+                hover:shadow-md transition">
+        <p class="text-sm font-medium text-gray-500">
+            Services
+        </p>
+
+        <p class="mt-2 text-3xl font-bold text-emerald-600">
+            {{ $totalServices }}
+        </p>
+
+        <p class="mt-1 text-sm text-gray-400">
+            Services disponibles
+        </p>
+    </div>
+
+
+    {{-- Stages en cours --}}
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6
+                hover:shadow-md transition">
+        <p class="text-sm font-medium text-gray-500">
+            Stages en cours
+        </p>
+
+        <p class="mt-2 text-3xl font-bold text-amber-500">
+            {{ $stagesEnCours }}
+        </p>
+
+        <p class="mt-1 text-sm text-gray-400">
+            Actuellement en cours
+        </p>
+    </div>
+
+
+    {{-- Stages terminés --}}
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6
+                hover:shadow-md transition">
+        <p class="text-sm font-medium text-gray-500">
+            Stages terminés
+        </p>
+
+        <p class="mt-2 text-3xl font-bold text-green-600">
+            {{ $stagesTermines }}
+        </p>
+
+        <p class="mt-1 text-sm text-gray-400">
+            Stages achevés
+        </p>
+    </div>
+
+</div>
+
+
+{{-- Répartition des stagiaires --}}
+<div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
+
+    <h2 class="text-xl font-semibold text-gray-900">
+        Répartition des stagiaires par service
+    </h2>
+
+    <div class="mt-5 space-y-3">
+
+        @foreach($repartitionParService as $service)
+
+            <div class="flex items-center justify-between
+                        bg-gray-50 rounded-lg px-4 py-3">
+
+                <span class="text-gray-700">
+                    {{ $service->nom }}
+                </span>
+
+                <span class="font-semibold text-blue-600">
                     {{ $service->stagiaires_count }} stagiaire(s)
-                </p>
-            @endforeach
+                </span>
 
-            <div class="mt-4">
-                <h3>Stagiaires par service</h3>
-                <canvas id="repartitionChart"></canvas>
             </div>
 
-            <h3 class="mt-4">Stages par mois</h3>
-            <canvas id="stagesMoisChart"></canvas>
+        @endforeach
+
+    </div>
+
+</div>
 
 
-            <h3 class="mt-4">Stagiaires ayant plusieurs stages</h3>
-             @foreach($stagiairesMultiplesStages as $stagiaire)
-                    <p>
-                        {{ $stagiaire->nom }} {{ $stagiaire->prenom }}
-                        : {{ $stagiaire->stages_count }} stages
-                    </p>
-                @endforeach
+{{-- Graphique stagiaires par service --}}
+<div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
 
-            <h3 class="mt-4">Services les plus demandés</h3>
+    <h2 class="text-xl font-semibold text-gray-900">
+        Stagiaires par service
+    </h2>
 
-                @foreach($topServices as $service)
-                    <p>
-                        {{ $service->nom }} :
-                        {{ $service->stages_count }} stage(s)
-                    </p>
-                @endforeach
+    <div class="mt-5">
+        <canvas id="repartitionChart"></canvas>
+    </div>
+
+</div>
 
 
+{{-- Graphique stages par mois --}}
+<div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
+
+    <h2 class="text-xl font-semibold text-gray-900">
+        Stages par mois
+    </h2>
+
+    <div class="mt-5">
+        <canvas id="stagesMoisChart"></canvas>
+    </div>
+
+</div>
 
 
-            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{{-- Stagiaires avec plusieurs stages --}}
+<div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
+
+    <h2 class="text-xl font-semibold text-gray-900">
+        Stagiaires ayant plusieurs stages
+    </h2>
+
+    <div class="mt-5 space-y-3">
+
+        @forelse($stagiairesMultiplesStages as $stagiaire)
+
+            <div class="flex items-center justify-between
+                        bg-gray-50 rounded-lg px-4 py-3">
+
+                <span class="text-gray-700">
+                    {{ $stagiaire->nom }} {{ $stagiaire->prenom }}
+                </span>
+
+                <span class="font-semibold text-indigo-600">
+                    {{ $stagiaire->stages_count }} stages
+                </span>
+
+            </div>
+
+        @empty
+
+            <p class="text-gray-500">
+                Aucun stagiaire n'a plusieurs stages.
+            </p>
+
+        @endforelse
+
+    </div>
+
+</div>
 
 
-            <script>
-                const services = @json($repartitionParService);
-                console.log(services);
-            </script>
+{{-- Services les plus demandés --}}
+<div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
+
+    <h2 class="text-xl font-semibold text-gray-900">
+        Services les plus demandés
+    </h2>
+
+    <div class="mt-5 space-y-3">
+
+        @foreach($topServices as $service)
+
+            <div class="flex items-center justify-between
+                        bg-gray-50 rounded-lg px-4 py-3">
+
+                <span class="text-gray-700">
+                    {{ $service->nom }}
+                </span>
+
+                <span class="font-semibold text-emerald-600">
+                    {{ $service->stages_count }} stage(s)
+                </span>
+
+            </div>
+
+        @endforeach
+
+    </div>
+
+</div>
+```
+
+</div>
+
+{{-- Chart.js --}}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+    const services = @json($repartitionParService);
+
+    const nomsServices = services.map(service => service.nom);
+    const nombresStagiaires = services.map(service => service.stagiaires_count);
+
+    new Chart(document.getElementById('repartitionChart'), {
+        type: 'bar',
+
+        data: {
+            labels: nomsServices,
+
+            datasets: [{
+                label: 'Nombre de stagiaires',
+                data: nombresStagiaires
+            }]
+        }
+    });
 
 
-            <script>
+    const stagesParMois = @json($stagesParMois);
 
-                const nomsServices = services.map(service => service.nom);
-                const nombresStagiaires = services.map(service => service.stagiaires_count);
+    const mois = stagesParMois.map(stage => stage.mois);
+    const totalStages = stagesParMois.map(stage => stage.total);
 
-                new Chart(document.getElementById('repartitionChart'), {
-                    type: 'bar',
-                    data: {
-                        labels: nomsServices,
-                        datasets: [{
-                            label: 'Nombre de stagiaires',
-                            data: nombresStagiaires
-                        }]
-                    }
-                });
-            </script>
+    new Chart(document.getElementById('stagesMoisChart'), {
+        type: 'line',
 
-            <script>
-                const stagesParMois = @json($stagesParMois);
+        data: {
+            labels: mois,
 
-                console.log(stagesParMois);
-            </script>
+            datasets: [{
+                label: 'Nombre de stages',
+                data: totalStages
+            }]
+        }
+    });
 
-            <script>
-                const mois = stagesParMois.map(stage => stage.mois);
-                const totalStages = stagesParMois.map(stage => stage.total);
+</script>
 
-                new Chart(document.getElementById('stagesMoisChart'), {
-                    type: 'line',
-                    data: {
-                        labels: mois,
-                        datasets: [{
-                            label: 'Nombre de stages',
-                            data: totalStages
-                        }]
-                    }
-                });
-            </script>
-     
-    @endsection
-</body>
-</html>
+@endsection

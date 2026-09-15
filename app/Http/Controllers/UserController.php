@@ -66,11 +66,17 @@ class UserController extends Controller
                 $user->password = $request->password;
             }
 
-            $user->save();
+            if ($user->isDirty()) {
+                $user->save();
+
+                return redirect()
+                    ->route('users.index')
+                    ->with('success', 'Utilisateur modifié avec succès.');
+            }
 
             return redirect()
                 ->route('users.index')
-                ->with('success', 'Utilisateur modifié avec succès.');
+                ->with('error', 'Aucune modification effectuée.');
         }
 
         public function destroy(User $user)

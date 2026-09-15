@@ -86,11 +86,17 @@ class StagiaireController extends Controller
         $stagiaire->filiere = $request->filiere;
         $stagiaire->niveau = $request->niveau;
 
-        $stagiaire->save();
+        if ($stagiaire->isDirty()) {
+            $stagiaire->save();
 
-        return redirect()
-            ->route('stagiaires.index')
-            ->with('success', 'Stagiaire modifié avec succès.');
+                return redirect()
+                    ->route('stagiaires.index')
+                    ->with('success', 'Stagiaire modifié avec succès.');
+            }
+
+            return redirect()
+                ->route('stagiaires.index')
+                ->with('error', 'Aucune modification effectuée.');
     }
 
 

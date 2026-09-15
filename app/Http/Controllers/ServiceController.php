@@ -54,11 +54,17 @@ class ServiceController extends Controller
         $service->nom = $request->nom;
         $service->description = $request->description;
 
-        $service->save();
+        if ($service->isDirty()) {
+            $service->save();
 
-        return redirect()
-            ->route('services.index')
-            ->with('success', 'service modifié avec succès.');
+                return redirect()
+                    ->route('services.index')
+                    ->with('success', 'Stagiaire modifié avec succès.');
+            }
+
+            return redirect()
+                ->route('services.index')
+                ->with('error', 'Aucune modification effectuée.');
     }
 
     public function destroy(Service $service)

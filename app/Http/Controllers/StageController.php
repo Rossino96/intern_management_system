@@ -114,11 +114,17 @@ class StageController extends Controller
         $stage->statut = $request->statut;
         $stage->theme = $request->theme;
 
-        $stage->save();
+        if ($stage->isDirty()) {
+            $stage->save();
 
-        return redirect()
-            ->route('stages.index')
-            ->with('success', 'Stage modifié avec succès.');
+                return redirect()
+                    ->route('stages.index')
+                    ->with('success', 'Stagiaire modifié avec succès.');
+            }
+
+            return redirect()
+                ->route('stages.index')
+                ->with('error', 'Aucune modification effectuée.');
     }
 
 

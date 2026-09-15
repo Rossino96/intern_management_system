@@ -1,77 +1,92 @@
 <!DOCTYPE html>
+
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Gestion de Stages')</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<title>@yield('title', 'Gestion de Stages')</title>
+
+@vite(['resources/css/app.css', 'resources/js/app.js'])
+
 </head>
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="{{ route('dashboard') }}">Gestion Stages</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    @auth
 
-                    {{-- Dashboard : tous les rôles --}}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('dashboard') }}">
-                            Dashboard
-                        </a>
-                    </li>
+<body class="bg-gray-100 text-gray-800">
 
-                    {{-- Stagiaires : tous les rôles --}}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('stagiaires.index') }}">
-                            Stagiaires
-                        </a>
-                    </li>
+<nav class="bg-gray-900 text-white shadow-lg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-                    {{-- Stages : tous les rôles --}}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('stages.index') }}">
-                            Stages
-                        </a>
-                    </li>
+        <div class="flex items-center justify-between h-16">
+
+            {{-- Logo / nom de l'application --}}
+            <a href="{{ route('dashboard') }}"
+               class="text-xl font-bold tracking-wide hover:text-blue-400 transition">
+                Gestion Stages
+            </a>
+
+            {{-- Navigation --}}
+            @auth
+                <div class="hidden md:flex items-center gap-2">
+
+                    {{-- Dashboard --}}
+                    <a href="{{ route('dashboard') }}"
+                       class="px-3 py-2 rounded-lg text-sm font-medium hover:bg-gray-800 hover:text-blue-400 transition">
+                        Dashboard
+                    </a>
+
+                    {{-- Stagiaires --}}
+                    <a href="{{ route('stagiaires.index') }}"
+                       class="px-3 py-2 rounded-lg text-sm font-medium hover:bg-gray-800 hover:text-blue-400 transition">
+                        Stagiaires
+                    </a>
+
+                    {{-- Stages --}}
+                    <a href="{{ route('stages.index') }}"
+                       class="px-3 py-2 rounded-lg text-sm font-medium hover:bg-gray-800 hover:text-blue-400 transition">
+                        Stages
+                    </a>
 
                     {{-- Services : Admin + RH --}}
                     @if(in_array(auth()->user()->role, ['admin', 'rh']))
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('services.index') }}">
-                                Services
-                            </a>
-                        </li>
+                        <a href="{{ route('services.index') }}"
+                           class="px-3 py-2 rounded-lg text-sm font-medium hover:bg-gray-800 hover:text-blue-400 transition">
+                            Services
+                        </a>
                     @endif
 
                     {{-- Utilisateurs : Admin uniquement --}}
                     @if(auth()->user()->role === 'admin')
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('users.index') }}">
-                                Utilisateurs
-                            </a>
-                        </li>
+                        <a href="{{ route('users.index') }}"
+                           class="px-3 py-2 rounded-lg text-sm font-medium hover:bg-gray-800 hover:text-blue-400 transition">
+                            Utilisateurs
+                        </a>
                     @endif
 
-                @endauth
-                </ul>
-            </div>
-            <form action="{{ route('logout') }}" method="POST">
-                @csrf
-                <button type="submit">Déconnexion</button>
-            </form>
+                </div>
+            @endauth
+
+            {{-- Déconnexion --}}
+            @auth
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+
+                    <button type="submit"
+                            class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-lg transition">
+                        Déconnexion
+                    </button>
+                </form>
+            @endauth
+
         </div>
-    </nav>
+    </div>
+</nav>
 
-    <main class="py-4">
-        @yield('content')
-    </main>
+{{-- Contenu des pages --}}
+<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    @yield('content')
+</main>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    @stack('scripts')
+@stack('scripts')
+
 </body>
 </html>

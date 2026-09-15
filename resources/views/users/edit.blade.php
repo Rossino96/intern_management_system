@@ -51,18 +51,17 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="password" class="form-label">
+                    <label for="password" class="form-label" autocomplete="new-password"  autocomplete="off">
                         Nouveau mot de passe
                     </label>
 
                     <input type="password"
-                        name="password"
-                        id="password"
-                        class="form-control">
+                        name="new_password" class="form-control">
 
                     <small class="text-muted">
                         Laisser vide pour conserver le mot de passe actuel.
                     </small>
+
                 </div>
 
                 <div class="mb-3">
