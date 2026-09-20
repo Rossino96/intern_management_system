@@ -1,0 +1,117 @@
+/* =========================================
+   CAROUSEL
+========================================= */
+
+.carousel-shell {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 20px 0;
+}
+
+.carousel-viewport {
+    width: 100%;
+    overflow: hidden;
+}
+
+.carousel-track {
+    display: flex;
+    align-items: center;
+    transition: transform 0.5s ease;
+}
+
+.carousel-card,
+.stagiaire-card {
+    flex: 0 0 33.333333%;
+    box-sizing: border-box;
+    padding: 0 10px;
+
+    transform: scale(0.82);
+    opacity: 0.65;
+
+    transition:
+        transform 0.5s ease,
+        opacity 0.5s ease;
+}
+
+/* Carte centrale */
+.carousel-card.active,
+.stagiaire-card.active {
+    transform: scale(1);
+    opacity: 1;
+    z-index: 2;
+}
+
+
+/* =========================================
+   BOUTONS DE NAVIGATION
+========================================= */
+
+.carousel-nav {
+    position: relative;
+    z-index: 10;
+
+    flex-shrink: 0;
+
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 50%;
+
+    background: white;
+    color: #374151;
+
+    font-size: 30px;
+    line-height: 1;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        opacity 0.2s ease,
+        transform 0.2s ease;
+}
+
+.carousel-prev {
+    margin-right: 10px;
+}
+
+.carousel-next {
+    margin-left: 10px;
+}
+
+.carousel-nav:hover:not(:disabled) {
+    background-color: #f3f4f6;
+    transform: scale(1.08);
+}
+
+.carousel-nav:disabled {
+    opacity: 0.40;
+    cursor: not-allowed;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 1023px) {
+    .carousel-card,
+    .stagiaire-card {
+        flex: 0 0 50%;
+    }
+}
+
+@media (max-width: 639px) {
+    .carousel-card,
+    .stagiaire-card {
+        flex: 0 0 100%;
+    }
+}

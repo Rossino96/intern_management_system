@@ -45,7 +45,16 @@
     color: #2563eb;
     font-size: 2rem;
     font-weight: 800;
+    overflow: hidden;
 }
+
+.avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
 .stagiaire-info {
     text-align: center;
 }
@@ -126,4 +135,225 @@
     .profile-grid {
         grid-template-columns: 1fr;
     }
+}
+/* =========================================
+   HEADER STAGIAIRES
+========================================= */
+
+.page-head {
+    width: 100%;
+}
+
+.page-head-top {
+    position: relative;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    width: 100%;
+}
+
+.page-head-bottom {
+    display: flex;
+    justify-content: flex-end;
+
+    width: 100%;
+    margin-top: 15px;
+}
+
+.page-head-bottom .actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+
+/* =========================================
+   BOUTONS RECHERCHE / FILTRE
+========================================= */
+
+.stagiaires-tools {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    margin-left: auto;
+}
+
+.tool-wrapper {
+    position: relative;
+}
+
+.tool-icon {
+    width: 40px;
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 50%;
+
+    background: white;
+    color: #374151;
+
+    font-size: 18px;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.tool-icon:hover {
+    background-color: #f3f4f6;
+    transform: scale(1.05);
+}
+
+
+/* =========================================
+   PANNEAU RECHERCHE
+   → SORT VERS LA GAUCHE
+========================================= */
+
+.stagiaires-search-panel {
+    position: absolute;
+
+    top: 0;
+    right: calc(100% + 8px);
+
+    width: 0;
+
+    overflow: hidden;
+
+    opacity: 0;
+    visibility: hidden;
+
+    transform: translateX(20px);
+
+    transition:
+        width 0.35s ease,
+        opacity 0.25s ease,
+        transform 0.35s ease;
+}
+
+.stagiaires-search-panel.open {
+    width: 330px;
+
+    opacity: 1;
+    visibility: visible;
+
+    transform: translateX(0);
+}
+
+.stagiaires-search-panel form {
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    width: 330px;
+}
+
+.stagiaires-search-panel input {
+    width: 260px;
+    height: 40px;
+
+    padding: 0 12px;
+
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+
+    outline: none;
+}
+
+.stagiaires-search-panel input:focus {
+    border-color: #2563eb;
+}
+
+
+/* =========================================
+   PANNEAU FILTRE
+   → SORT VERS LA DROITE
+========================================= */
+
+.stagiaires-filter-panel {
+    position: absolute;
+
+    top: 48px;
+    left: 0;
+
+    width: 0;
+
+    overflow: hidden;
+
+    opacity: 0;
+    visibility: hidden;
+
+    transition:
+        width 0.35s ease,
+        opacity 0.25s ease;
+}
+
+.stagiaires-filter-panel.open {
+    width: 210px;
+
+    opacity: 1;
+    visibility: visible;
+}
+
+.stagiaires-filter-panel form {
+    display: flex;
+    flex-direction: column;
+
+    gap: 12px;
+
+    width: 210px;
+
+    padding: 15px;
+
+    box-sizing: border-box;
+
+    background: white;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+
+    gap: 5px;
+}
+
+.filter-group label {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.filter-group select {
+    width: 100%;
+    height: 40px;
+
+    padding: 0 10px;
+
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+
+    background: white;
+}
+
+.filter-actions {
+    display: flex;
+    flex-direction: column;
+
+    gap: 8px;
 }

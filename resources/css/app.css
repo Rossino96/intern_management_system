@@ -1,6 +1,9 @@
 @import 'tailwindcss';
+
 @import './components.css';
 @import './forms.css';
+@import './components/carousel.css';
+
 @import './pages/dashboard.css';
 @import './pages/stagiaires.css';
 @import './pages/stages.css';
@@ -12,12 +15,45 @@
 @source '../../storage/framework/views/*.php';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans:
+        "Instrument Sans", ui-sans-serif, system-ui, sans-serif,
+        "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+        "Noto Color Emoji";
 }
 
-:root { --bg:#f5f7fb; --surface:#fff; --text:#172033; --muted:#687386; --line:#e7ebf2; --primary:#2563eb; --primary-dark:#1d4ed8; --danger:#dc2626; --success:#059669; --warning:#d97706; --radius:18px; --shadow:0 10px 30px rgba(15,23,42,.06); }
-* { box-sizing:border-box; }
-html { min-height:100%; }
-body { margin:0; background:var(--bg); color:var(--text); font-family:var(--font-sans); }
-a { color:inherit; text-decoration:none; }
-button,input,select,textarea { font:inherit; }
+:root {
+    --bg: #f5f7fb;
+    --surface: #fff;
+    --text: #172033;
+    --muted: #687386;
+    --line: #e7ebf2;
+    --primary: #2563eb;
+    --primary-dark: #1d4ed8;
+    --danger: #dc2626;
+    --success: #059669;
+    --warning: #d97706;
+    --radius: 18px;
+    --shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+}
+* {
+    box-sizing: border-box;
+}
+html {
+    min-height: 100%;
+}
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+}
+a {
+    color: inherit;
+    text-decoration: none;
+}
+button,
+input,
+select,
+textarea {
+    font: inherit;
+}

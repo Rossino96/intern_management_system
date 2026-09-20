@@ -8,7 +8,7 @@
 </head>
 <body class="auth-page">
     <div class="card auth-card">
-        <div class="auth-logo">GS</div>
+        <div class="auth-logo">Asecna</div>
         <h1 class="auth-title">Connexion</h1>
         <p class="auth-subtitle">Accédez à votre espace de gestion des stages.</p>
 

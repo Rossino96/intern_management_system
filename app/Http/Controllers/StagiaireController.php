@@ -11,9 +11,25 @@ use App\Models\Service;
 class StagiaireController extends Controller
 
 {
-    public function index()
+    public function index(Request $request)
     {
-        $stagiaires = Stagiaire::withCount('stages')->get();
+        $query = Stagiaire::withCount('stages');
+
+        if ($request->filled('search')) {
+        $search = $request->search;
+
+        $query->where(function ($q) use ($search) {
+            $q->where('nom', 'like', "%{$search}%")
+                ->orWhere('prenom', 'like', "%{$search}%")
+                ->orWhere('email', 'like', "%{$search}%")
+                ->orWhere('telephone', 'like', "%{$search}%")
+                ->orWhere('etablissement', 'like', "%{$search}%")
+                ->orWhere('filiere', 'like', "%{$search}%")
+                ->orWhere('niveau', 'like', "%{$search}%")
+                ->orWhere('adresse', 'like', "%{$search}%");
+        });
+    }
+    $stagiaires = $query->get();
 
         return view('stagiaires.index', compact('stagiaires'));
     }
@@ -40,6 +56,7 @@ class StagiaireController extends Controller
             'etablissement' => 'required',
             'filiere' => 'required',
             'niveau' => 'required',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
 
         $stagiaire->nom = $request->nom;
@@ -52,6 +69,12 @@ class StagiaireController extends Controller
         $stagiaire->etablissement = $request->etablissement;
         $stagiaire->filiere = $request->filiere;
         $stagiaire->niveau = $request->niveau;
+
+        if ($request->hasFile('photo')) {
+            $photoPath = $request->file('photo')->store('photos/stagiaires', 'public');
+        } else {
+            $photoPath = null;
+        }
 
         $stagiaire->save();
 
@@ -73,8 +96,9 @@ class StagiaireController extends Controller
             'etablissement' => 'required',
             'filiere' => 'required',
             'niveau' => 'required',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
-
+        
         $stagiaire->nom = $request->nom;
         $stagiaire->prenom = $request->prenom;
         $stagiaire->sexe = $request->sexe;
@@ -85,6 +109,14 @@ class StagiaireController extends Controller
         $stagiaire->etablissement = $request->etablissement;
         $stagiaire->filiere = $request->filiere;
         $stagiaire->niveau = $request->niveau;
+        $stagiaire->niveau = $request->niveau;
+
+        if ($request->hasFile('photo')) {
+            $stagiaire->photo = $request->file('photo')->store(
+                'photos/stagiaires',
+                'public'
+            );
+        }
 
         if ($stagiaire->isDirty()) {
             $stagiaire->save();
