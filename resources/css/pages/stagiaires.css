@@ -141,78 +141,76 @@
 ========================================= */
 
 .page-head {
-    width: 100%;
+    display: block !important;
+    width: 100% !important;
 }
 
 .page-head-top {
-    position: relative;
-
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-
-    width: 100%;
+    position: relative !important;
+    display: block !important;
+    width: 100% !important;
 }
 
-.page-head-bottom {
-    display: flex;
-    justify-content: flex-end;
-
-    width: 100%;
-    margin-top: 15px;
+.page-head-top > div:first-child {
+    width: 100% !important;
 }
-
-.page-head-bottom .actions {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-
-/* =========================================
-   BOUTONS RECHERCHE / FILTRE
-========================================= */
 
 .stagiaires-tools {
-    position: relative;
+    position: absolute !important;
+    top: 0 !important;
+    right: 0 !important;
 
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
 
-    margin-left: auto;
+    gap: 8px !important;
+    width: auto !important;
+    height: 40px !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    z-index: 50 !important;
 }
 
 .tool-wrapper {
-    position: relative;
+    position: relative !important;
+    flex: 0 0 auto !important;
 }
 
 .tool-icon {
-    width: 40px;
-    height: 40px;
+    width: 40px !important;
+    height: 40px !important;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
 
-    border: 1px solid #e5e7eb;
-    border-radius: 50%;
-
-    background: white;
-    color: #374151;
-
-    font-size: 18px;
-
-    cursor: pointer;
-
-    transition:
-        background-color 0.2s ease,
-        transform 0.2s ease;
+    margin: 0 !important;
 }
 
-.tool-icon:hover {
-    background-color: #f3f4f6;
-    transform: scale(1.05);
+.page-head-bottom {
+    position: relative !important;
+
+    display: flex !important;
+    justify-content: flex-end !important;
+    align-items: center !important;
+
+    width: 100% !important;
+
+    margin-top: 15px !important;
+}
+
+.page-head-bottom .actions {
+    position: static !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+
+    width: auto !important;
+    margin: 0 !important;
 }
 
 
@@ -356,4 +354,26 @@
     flex-direction: column;
 
     gap: 8px;
+}
+
+.page-head-bottom {
+    position: relative !important;
+
+    display: flex !important;
+    justify-content: flex-end !important;
+
+    width: 100% !important;
+
+    margin-top: 15px !important;
+}
+
+.page-head-bottom .actions {
+    position: static !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+
+    width: auto !important;
+    margin: 0 !important;
 }

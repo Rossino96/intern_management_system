@@ -10,6 +10,8 @@
             {{ session('error') }}
         </div>
     @endif
+
+
 <div class="page-head">
 
     <div class="page-head-top">
@@ -26,8 +28,7 @@
 
         <div class="stagiaires-tools">
 
-            {{-- Recherche --}}
-            <div class="tool-wrapper tool-search">
+            <div class="tool-wrapper">
 
                 <button
                     type="button"
@@ -40,29 +41,24 @@
                 </button>
 
                 <div class="stagiaires-search-panel" id="search-panel">
-
                     <form method="GET" action="{{ route('stagiaires.index') }}">
-
                         <input
                             type="text"
                             name="search"
                             value="{{ request('search') }}"
-                            placeholder="Nom, prénom, email..."
+                            placeholder="Nom, prénom, email, établissement..."
                         >
 
                         <button type="submit" class="btn btn-primary">
                             Rechercher
                         </button>
-
                     </form>
-
                 </div>
 
             </div>
 
 
-            {{-- Filtres --}}
-            <div class="tool-wrapper tool-filter">
+            <div class="tool-wrapper">
 
                 <button
                     type="button"
@@ -79,38 +75,25 @@
                     <form method="GET" action="{{ route('stagiaires.index') }}">
 
                         <div class="filter-group">
-
-                            <label for="filter-sexe">
-                                Sexe
-                            </label>
+                            <label for="filter-sexe">Sexe</label>
 
                             <select name="sexe" id="filter-sexe">
-
                                 <option value="">Tous</option>
 
-                                <option value="Homme"
-                                    {{ request('sexe') == 'Homme' ? 'selected' : '' }}>
+                                <option value="Homme" {{ request('sexe') == 'Homme' ? 'selected' : '' }}>
                                     Homme
                                 </option>
 
-                                <option value="Femme"
-                                    {{ request('sexe') == 'Femme' ? 'selected' : '' }}>
+                                <option value="Femme" {{ request('sexe') == 'Femme' ? 'selected' : '' }}>
                                     Femme
                                 </option>
-
                             </select>
-
                         </div>
 
-
                         <div class="filter-group">
-
-                            <label for="filter-niveau">
-                                Niveau
-                            </label>
+                            <label for="filter-niveau">Niveau</label>
 
                             <select name="niveau" id="filter-niveau">
-
                                 <option value="">Tous</option>
 
                                 <option value="L1" {{ request('niveau') == 'L1' ? 'selected' : '' }}>
@@ -132,11 +115,8 @@
                                 <option value="M2" {{ request('niveau') == 'M2' ? 'selected' : '' }}>
                                     M2
                                 </option>
-
                             </select>
-
                         </div>
-
 
                         <div class="filter-actions">
 
@@ -173,11 +153,9 @@
             </a>
 
             @if (in_array(auth()->user()->role, ['admin', 'rh']))
-
                 <a class="btn btn-primary" href="{{ route('stagiaires.create') }}">
                     + Ajouter
                 </a>
-
             @endif
 
         </div>
@@ -185,77 +163,6 @@
     </div>
 
 </div>
-
-        <div class="stagiaires-search-panel" id="search-panel">
-            <form method="GET" action="{{ route('stagiaires.index') }}">
-                <input type="text" name="search" value="{{ request('search') }}"
-                    placeholder="Nom, prénom, email, établissement...">
-
-                <button type="submit" class="btn btn-primary">
-                    Rechercher
-                </button>
-            </form>
-        </div>
-
-        <div class="stagiaires-filter-panel" id="filter-panel">
-
-            <form method="GET" action="{{ route('stagiaires.index') }}">
-
-                <div class="filter-group">
-                    <label for="filter-sexe">Sexe</label>
-
-                    <select name="sexe" id="filter-sexe">
-                        <option value="">Tous</option>
-                        <option value="Homme" {{ request('sexe') == 'Homme' ? 'selected' : '' }}>
-                            Homme
-                        </option>
-                        <option value="Femme" {{ request('sexe') == 'Femme' ? 'selected' : '' }}>
-                            Femme
-                        </option>
-                    </select>
-                </div>
-
-                <div class="filter-group">
-                    <label for="filter-niveau">Niveau</label>
-
-                    <select name="niveau" id="filter-niveau">
-                        <option value="">Tous</option>
-
-                        <option value="L1" {{ request('niveau') == 'L1' ? 'selected' : '' }}>
-                            L1
-                        </option>
-
-                        <option value="L2" {{ request('niveau') == 'L2' ? 'selected' : '' }}>
-                            L2
-                        </option>
-
-                        <option value="L3" {{ request('niveau') == 'L3' ? 'selected' : '' }}>
-                            L3
-                        </option>
-
-                        <option value="M1" {{ request('niveau') == 'M1' ? 'selected' : '' }}>
-                            M1
-                        </option>
-
-                        <option value="M2" {{ request('niveau') == 'M2' ? 'selected' : '' }}>
-                            M2
-                        </option>
-                    </select>
-                </div>
-
-                <div class="actions">
-                    <button type="submit" class="btn btn-primary">
-                        Appliquer
-                    </button>
-
-                    <a href="{{ route('stagiaires.index') }}" class="btn btn-secondary">
-                        Réinitialiser
-                    </a>
-                </div>
-
-            </form>
-
-        </div>
 
         <div class="carousel-shell">
             <button class="carousel-nav carousel-prev" data-carousel-prev type="button">
