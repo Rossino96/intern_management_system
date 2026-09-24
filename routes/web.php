@@ -14,6 +14,8 @@ use App\Http\Controllers\AuthController;
 
 use App\Http\Controllers\UserController;
 
+use App\Http\Controllers\RapportController;
+
 
 Route::middleware('auth')->group(function () {
 
@@ -103,6 +105,22 @@ Route::middleware('auth')->group(function () {
 
         Route::delete('/stages/{stage}', [StageController::class, 'destroy'])
             ->name('stages.destroy');
+
+
+        Route::get('/rapports/{stage}/create', [RapportController::class, 'create'])
+            ->name('rapports.create');
+
+        Route::post('/rapports/{stage}', [RapportController::class, 'store'])
+            ->name('rapports.store');
+
+        Route::get('/rapports/{rapport}', [RapportController::class, 'show'])
+            ->name('rapports.show');
+
+        Route::get('/rapports/{rapport}/edit', [RapportController::class, 'edit'])
+            ->name('rapports.edit');
+
+        Route::put('/rapports/{rapport}', [RapportController::class, 'update'])
+            ->name('rapports.update');
     });
 
     // UTILISATEURS : Admin uniquement

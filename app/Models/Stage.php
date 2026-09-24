@@ -20,7 +20,11 @@ class Stage extends Model
     }
 
     public function encadrant()
-{
-    return $this->belongsTo(User::class, 'encadrant_id');
-}
+    {
+        return $this->belongsTo(User::class, 'encadrant_id');
+    }
+    public function rapport()
+    {
+        return $this->hasOne(Rapport::class);
+    }
 }

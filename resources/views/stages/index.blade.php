@@ -40,6 +40,7 @@
                     <th>Date fin</th>
                     <th>Statut</th>
                     <th>Thème</th>
+                    <th>Rapport de stage</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -63,19 +64,60 @@
                                     auth()->user()->role === 'rh' ||
                                     (auth()->user()->role === 'encadrant' && $stage->encadrant_id == auth()->user()->id))
                                 <div class="table-actions">
-                                    <a class="btn btn-warning"
-                                        href="{{ route('stages.edit', $stage->id) }}">
-                                        Modifier
-                                    </a>
-                                    <form action="{{ route('stages.destroy', $stage->id) }}" method="POST"
-                                        data-confirm="Voulez-vous vraiment supprimer ce stage ?">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="btn btn-danger" type="submit">
-                                            Supprimer
-                                        </button>
-                                    </form>
+                                    @if ($stage->statut === 'Terminé') 
+
+                                            @if ($stage->rapport)
+
+                                                <div class="actions">
+
+                                                    <a
+                                                        href="{{ route('rapports.show', $stage->rapport->id) }}"
+                                                        class="btn btn-info"
+                                                        target="_blank"
+                                                    >
+                                                        Voir le rapport actuel
+                                                    </a>
+
+                                                    <a
+                                                        href="{{ route('rapports.edit', $stage->rapport->id) }}"
+                                                        class="btn btn-warning"
+                                                    >
+                                                        Modifier le rapport
+                                                    </a>
+
+                                                </div>
+
+                                            @else
+                                                <div style="margin-bottom: 15px;">
+                                                    Aucun rapport de stage enregistrer.
+                                                </div>
+
+                                                <a
+                                                    href="{{ route('rapports.create', $stage->id) }}"
+                                                    class="btn btn-success"
+                                                >
+                                                    Ajouter le rapport
+                                                </a>
+                                            @endif
+                                                
+                                    @else
+                                        <p>Stage non terminer</p>
+                                    @endif
                                 </div>
+                        </td>
+                        <td>
+                            <a class="btn btn-warning"
+                                href="{{ route('stages.edit', $stage->id) }}">
+                                Modifier
+                            </a>
+                            <form action="{{ route('stages.destroy', $stage->id) }}" method="POST"
+                                data-confirm="Voulez-vous vraiment supprimer ce stage ?">
+                                @csrf
+                                @method('DELETE')
+                                <button class="btn btn-danger" type="submit">
+                                    Supprimer
+                                </button>
+                            </form>
                             @else
                                 <span class="badge badge-gray">
                                     Consultation

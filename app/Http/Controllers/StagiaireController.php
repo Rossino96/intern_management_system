@@ -29,6 +29,15 @@ class StagiaireController extends Controller
                 ->orWhere('adresse', 'like', "%{$search}%");
         });
     }
+
+    if ($request->filled('sexe')) {
+        $query->where('sexe', $request->sexe);
+    }
+
+     if ($request->filled('niveau')) {
+        $query->where('niveau', $request->niveau);
+    }
+    
     $stagiaires = $query->get();
 
         return view('stagiaires.index', compact('stagiaires'));

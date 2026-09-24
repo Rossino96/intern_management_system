@@ -12,7 +12,7 @@ class StageController extends Controller
 {
     public function index()
     {
-        $stages = Stage::all();
+        $stages = Stage::with('rapport')->get();
 
         return view('stages.index',compact('stages'));
     }
@@ -66,7 +66,7 @@ class StageController extends Controller
 
     public function edit($id)
     {
-        $stage = Stage::find($id);
+        $stage = Stage::with('rapport')->findOrFail($id);
            if (
             auth()->user()->role === 'encadrant' &&
             $stage->encadrant_id !== auth()->user()->id
