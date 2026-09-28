@@ -12,7 +12,7 @@
     @endif
 
 
-<div class="page-head">
+<div class="page-head stagiaires-page-head">
 
     <div class="page-head-top">
 

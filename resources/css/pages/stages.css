@@ -1,1 +1,19 @@
-/* Styles specific to the stages pages can be added here without touching global components. */
+
+.page-head {
+    display: flex !important;
+    align-items: flex-end !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+}
+
+.page-head > div:first-child {
+    flex: 1 !important;
+}
+
+.page-head > .actions {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: 10px !important;
+    margin-left: auto !important;
+}
