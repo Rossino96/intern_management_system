@@ -1,7 +1,10 @@
 <?php
 
+use Illuminate\Support\Facades\Schedule;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
+
+Schedule::command('stages:update-expired')->daily();
 
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
